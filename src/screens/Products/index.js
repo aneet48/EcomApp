@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
+  Modal
 } from "react-native";
 import {
   OSWALD_MEDIUM,
@@ -20,7 +21,7 @@ import { APP_HORIZONTAL_MARGIN } from "../../theme/constants";
 import womenProductJson from "../../assets/json/WomenProducts.json";
 import menProductJson from "../../assets/json/MenProducts.json";
 import { FlatList } from "react-native-gesture-handler";
-
+import Filter from "./Filter";
 const { width } = Dimensions.get("window");
 let boxWidth = width / 2 - 30;
 
@@ -28,6 +29,7 @@ const Products = props => {
   const [type, settype] = useState("");
   const [list, setlist] = useState(false);
   const [products, setproducts] = useState([]);
+  const [modalVisible, setmodalVisible] = useState(false);
   useEffect(() => {
     let params = props.navigation.state.params;
     params && params.title ? settype(params.title) : settype("Products");
@@ -87,6 +89,8 @@ const Products = props => {
     );
   };
 
+  closeModal=()=>setmodalVisible(false)
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -102,13 +106,33 @@ const Products = props => {
             <TouchableOpacity onPress={() => setlist(false)}>
               <Icon name="grid" size={18} color={!list ? "#000" : "#ccc"} />
             </TouchableOpacity>
-
-            <View style={styles.filterBtn}>
-              <Text style={styles.filterText}>FILTER</Text>
-            </View>
+            <TouchableOpacity onPress={() => setmodalVisible(true)}>
+              <View style={styles.filterBtn}>
+                <Text style={styles.filterText}>FILTER</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        {/* <View style={styles.filterContainer}>
+          <View styl={styles.filterHeader}>
+            <TouchableOpacity
+              onPress={() => {
+                setmodalVisible(false);
+              }}
+            >
+              <Text>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View> */}
+        <Filter closeModal={closeModal} />
+      </Modal>
       {/* {productsGrid()} */}
       {list ? productsList() : productsGrid()}
     </View>
@@ -210,7 +234,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     flex: 1,
     justifyContent: "space-between"
-  }
+  },
+  filterContainer: {
+    flex: 1,
+    backgroundColor: "rgba(255, 255, 255, .9)",
+    marginVertical: APP_HORIZONTAL_MARGIN,
+    marginHorizontal: APP_HORIZONTAL_MARGIN
+  },
+  
 });
 
 Products.navigationOptions = ({ navigation }) => {
