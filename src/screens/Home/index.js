@@ -10,7 +10,7 @@ import ForKIds from "./ForKIds";
 import LocateStore from "./LocateStore";
 import Filtered from "./Filtered";
 import { OSWALD_MEDIUM } from "../../theme/fonts";
-const Home = () => {
+const Home = (props) => {
   return (
     <ScrollView>
       <View style={{ height: 150 }}>
@@ -24,10 +24,26 @@ const Home = () => {
           <BestSeller />
         </View>
         <View style={styles.section}>
-          <ForWomen />
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("Products", {
+                title: "women "
+              })
+            }
+          >
+            <ForWomen />
+          </TouchableOpacity>
         </View>
         <View style={styles.section}>
-          <ForMen />
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("Products", {
+                title: "men"
+              })
+            }
+          >
+            <ForMen />
+          </TouchableOpacity>
         </View>
         <View style={styles.section}>
           <ForKIds />

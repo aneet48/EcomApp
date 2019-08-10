@@ -11,11 +11,13 @@ import IconMat from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import SideMenu from "./src/components/SideMenu2";
 import Home from "./src/screens/Home";
 import Account from "./src/screens/Account";
+import Products from "./src/screens/Products";
 import { OSWALD, OSWALD_SEMI_BOLD } from "./src/theme/fonts";
 const { width } = Dimensions.get("window");
 
 const HomeStack = createStackNavigator({
-  Home: Home
+  Home: Home,
+  Products: Products
 });
 const TestStack = createStackNavigator({
   Test: Home
